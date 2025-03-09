@@ -32,6 +32,10 @@ jobs:
 
       - name: Setup Go
         uses: actions/setup-go@v5
+        run: go install honnef.co/go/tools/cmd/staticcheck@latest
 
       - name: Check go formatting
         run: test -z $(go fmt ./...)
+
+      - name: Linting
+        run: statickcheck ./...
