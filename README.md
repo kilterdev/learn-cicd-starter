@@ -1,4 +1,4 @@
-![ci tests](https://github.com/kilterdev/learn-cicd-starter/actions/workflows/ci/badge.svg)
+![ci tests](https://github.com/kilterdev/learn-cicd-starter/actions/workflows/ci.yml/badge.svg)
 
 # learn-cicd-starter (Notely)
 
