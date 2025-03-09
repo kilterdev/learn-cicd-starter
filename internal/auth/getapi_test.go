@@ -13,7 +13,7 @@ func TestGetAPIKey(t *testing.T) {
 
     _, err := GetAPIKey(headers)
 
-    if err == ErrNoAuthHeaderIncluded {
+    if err != ErrNoAuthHeaderIncluded {
         t.Fatalf("No error!")
     }
 }
