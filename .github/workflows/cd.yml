@@ -8,6 +8,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      REGION: ${{ vars.GCP_REGION }}
 
     steps:
       - name: Checkout
@@ -32,9 +35,7 @@ jobs:
         run: ./scripts/buildprod.sh
 
       - name: Push 
-        env:
-          PROJECT_ID: ${{ vars.PROJECT_ID }}
         run: gcloud builds submit --tag "us-central1-docker.pkg.dev/$PROJECT_ID/notely-ar-repo/notely:latest" .
 
       - name: Deploy to Cloud Run
-        run: gcloud run deploy notely --image "us-central1-docker.pkg.dev/$PROJECT_ID/notely-ar-repo/notely:latest" --region us-central1 --allow-unauthenticated --project "$PROJECT_ID" --max-instances=4
+        run: gcloud run deploy notely --image "us-central1-docker.pkg.dev/$PROJECT_ID/notely-ar-repo/notely:latest" --region "$REGION" --allow-unauthenticated --project "$PROJECT_ID" --max-instances=4
