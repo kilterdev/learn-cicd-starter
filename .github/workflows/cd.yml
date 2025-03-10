@@ -3,7 +3,8 @@ name: Continuous Deployment
 on:
   push:
     branches: [main]
-
+  pull_request:
+    branches: [main]
 
 
 jobs:
@@ -20,22 +21,18 @@ jobs:
         with:
           go-version: "1.23.0"
 
-      - name: GCloud AUth
+      - name: GCP Auth
         uses: 'google-github-actions/auth@v2'
         with: 
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
-      - name: Setup GCloud
+      - name: Setup gcloud
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
           version: '>= 363.0.0'
 
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-
       - name: Build
         run: ./scripts/buildprod.sh
 
-      - name: Deploy to the cloud
-        run: gcloud builds submit --tag us-central1-docker.pkg.dev/notely-453313/notely-ar-repo/notely:latest .
-        
+      - name: Push 
+        run: gcloud builds submit --tag 'us-central1-docker.pkg.dev/${{ PROJECT_ID }}/notely-ar-repo/notely:latest' .
