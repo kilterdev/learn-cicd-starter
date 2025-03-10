@@ -11,6 +11,7 @@ jobs:
     env:
       PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
       REGION: ${{ vars.GCP_REGION }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Checkout
@@ -31,8 +32,14 @@ jobs:
         with:
           version: '>= 363.0.0'
 
+      - name: Setup Goose
+        uses: mscno/setup-goose@v1
+
       - name: Build
         run: ./scripts/buildprod.sh
+
+      - name: Perform Migrations
+        run: ./scripts/migrateup.sh
 
       - name: Push 
         run: gcloud builds submit --tag "us-central1-docker.pkg.dev/$PROJECT_ID/notely-ar-repo/notely:latest" .
