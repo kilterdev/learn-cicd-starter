@@ -20,9 +20,10 @@ jobs:
         with:
           go-version: "1.23.0"
 
-      - name: GCloud AUth
+      - id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with: 
+          project_id: 'notely-453313'
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
       - name: Setup GCloud
@@ -38,4 +39,3 @@ jobs:
 
       - name: Deploy to the cloud
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/notely-453313/notely-ar-repo/notely:latest .
-        
