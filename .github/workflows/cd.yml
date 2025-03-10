@@ -3,9 +3,6 @@ name: Continuous Deployment
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-
 
 jobs:
   deploy:
@@ -35,4 +32,6 @@ jobs:
         run: ./scripts/buildprod.sh
 
       - name: Push 
-        run: gcloud builds submit --tag 'us-central1-docker.pkg.dev/${{ PROJECT_ID }}/notely-ar-repo/notely:latest' .
+        env:
+          PROJECT_ID: ${{ vars.PROJECT_ID }}
+        run: gcloud builds submit --tag "us-central1-docker.pkg.dev/$PROJECT_ID/notely-ar-repo/notely:latest" .
